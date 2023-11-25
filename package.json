@@ -1,0 +1,15 @@
+{
+  "name": "loginer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "C:\\Users\\Gleb\\Documents\\Repositories\\Loginer"
+  },
+  "author": "Enot",
+  "license": "ISC"
+}
