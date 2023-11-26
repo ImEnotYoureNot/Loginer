@@ -1,31 +1,31 @@
-export class loginer{
+class loginer{
     constructor(connection, usersTableName = ""){
         if(typeof usersTableName != "string"){
-            return Error("Table name must be a string.")
+            return console.log(Error("Table name must be a string."))
         }
 
         this.connection = connection
         this.tableName = usersTableName
     }
 
-    signup(signupInfo, tableName = ""){
+    signup(signupInfo, tableName = "", callback){
         if(typeof signupInfo != "object"){
-            return Error("Loginer.signup err: Signup info must be an object.")
+            return console.log(Error("Loginer.signup err: Signup info must be an object."))
         }
 
         let sqlTableName = this.tableName
         if(tableName != ""){
             sqlTableName = tableName
         }else if(this.tableName == ""){
-            return Error("Table name needed.")
+            return console.log(Error("Table name needed."))
         }
 
         let i = 0
         let insertKeys = ""
         let insertValues = ""
-        while(Object.keys(signupInfo).length >= i){
+        while(Object.keys(signupInfo).length > i){
             insertKeys = insertKeys + ',' +  Object.keys(signupInfo)[i]
-            insertValues = insertValues + ', "' + signupInfo[i] + '"';
+            insertValues = insertValues + ', "' + signupInfo[Object.keys(signupInfo)[i]] + '"';
             i++
         }
 
@@ -36,16 +36,16 @@ export class loginer{
 
         this.connection.query(sql, (err, rows, fields) => {
             if(err){
-                return Error(err)
+                return console.log(Error(err))
             }else{
-                return "Success"
+                callback("Success")
             }
         })
     }
 
-    login(credentials, tableName = ""){
+    login(credentials, tableName = "", callback){
         if(typeof credentials != "object"){
-            return Error("Loginer.login err: Credentials must be an object.")
+            return console.log(Error("Loginer.login err: Credentials must be an object."))
         }
 
         let sqlTableName = this.tableName
@@ -55,19 +55,23 @@ export class loginer{
 
         let i = 0
         let whereClause = ""
-        while(Object.keys(credentials).length >= i){
-            whereClause = "AND " + Object.keys(credentials)[i] + " = '" + credentials[i] + "'"
+        while(Object.keys(credentials).length > i){
+            whereClause = whereClause + " AND " + Object.keys(credentials)[i] + " = '" + credentials[Object.keys(credentials)[i]] + "'"
             i++
         }
-        whereClause = whereClause.substring(3) + ";"
+        whereClause = whereClause.substring(4) + ";"
 
-        let sql = "SELECT * FROM " + sqlTableName + " WHERE " + whereClause
+        let sql = "SELECT * FROM " + sqlTableName + " WHERE" + whereClause
+
         this.connection.query(sql, (err, queryRows, queryFields) => {
             if(err){
-                return Error(err)
+                return console.log(Error(err))
             }
 
-            return {rows: queryRows, fields: queryFields}
+            callback(queryRows, queryFields)
         })
     }
 }
+
+
+module.exports = loginer
