@@ -1,7 +1,7 @@
 # Loginer
 EN: This simple node.js & mysql repo will make developing sign in, sing up and similar forms with node.js easier.
 
-##Instalation:
+## Instalation:
 The package is available at npm:
 ```npm i @imenotyourenot/loginer```
 
