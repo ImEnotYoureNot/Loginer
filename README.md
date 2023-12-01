@@ -1,10 +1,6 @@
 # Loginer
 EN: This simple node.js & mysql repo will make developing sign in, sing up and similar forms with node.js easier.
 
-## Instalation:
-The package is available at npm:
-```npm i @imenotyourenot/loginer```
-
 ## How to use:
 1. Require a mysql or mysql2 module and create a connection variable
 2. Require loginer module.
@@ -17,3 +13,7 @@ The method will create an INSERT query. If successful will return "Success", wil
 2. **loginer.login(data: object, tableName(optional): string, callback(rows, fields): function):**  
 Parameters have identical requirements as in loginer.signup() method.
 The method will create a SELECT ... WHERE ... query and return a callback.
+
+## Variables:
+1. **loginer.connection:** your mysql connection.
+2. **loginer.tableName:** default name of the db table.
