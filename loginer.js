@@ -22,25 +22,30 @@ class loginer{
 
         let i = 0
         let insertKeys = ""
-        let insertValues = ""
+        let Qmarks = ""
+        const insertValues = []
+
         while(Object.keys(signupInfo).length > i){
             insertKeys = insertKeys + ',' +  Object.keys(signupInfo)[i]
-            insertValues = insertValues + ', "' + signupInfo[Object.keys(signupInfo)[i]] + '"';
+            Qmarks = Qmarks + ',' + "?"
+            insertValues.push(signupInfo[Object.keys(signupInfo)[i]])
             i++
         }
 
         insertKeys = insertKeys.substring(1)
-        insertValues = insertValues.substring(1)
+        Qmarks = Qmarks.substring(1)
 
-        let sql = "INSERT INTO " + sqlTableName + "(" + insertKeys + ") VALUES(" + insertValues + ");"
+        let sql = "INSERT INTO " + sqlTableName + "(" + insertKeys + ") VALUES(" + Qmarks + ");"
 
-        this.connection.query(sql, (err, rows, fields) => {
-            if(err){
-                return console.log(Error(err))
-            }else{
-                callback("Success")
+        this.connection.execute(
+            sql,
+            insertValues,
+            function(err, results, fields){
+                if(err) callback(err)
+
+                callback("200")
             }
-        })
+        )
     }
 
     login(credentials, tableName = "", callback){
@@ -55,21 +60,25 @@ class loginer{
 
         let i = 0
         let whereClause = ""
+        const data = []
         while(Object.keys(credentials).length > i){
-            whereClause = whereClause + " AND " + Object.keys(credentials)[i] + " = '" + credentials[Object.keys(credentials)[i]] + "'"
+            whereClause = whereClause + " AND " + Object.keys(credentials)[i] + " = ?"
+            data.push(signupInfo[Object.keys(signupInfo)[i]])
             i++
         }
         whereClause = whereClause.substring(4) + ";"
 
         let sql = "SELECT * FROM " + sqlTableName + " WHERE" + whereClause
 
-        this.connection.query(sql, (err, queryRows, queryFields) => {
-            if(err){
-                return console.log(Error(err))
-            }
+        this.connection.execute(
+            sql,
+            data,
+            function(err, results, fields){
+                if(err) callback(Error(err), null,  null)
 
-            callback(queryRows, queryFields)
-        })
+                callback("200", results, fields)
+            }
+        )
     }
 }
 
