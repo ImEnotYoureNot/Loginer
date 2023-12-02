@@ -20,7 +20,9 @@ The method will create an INSERT query. If successful will return err === "200",
 2. **loginer.login(data: object, tableName(optional): string, callback(err, rows, fields): function):**  
 Parameters have identical requirements as in loginer.signup() method.
 The method will create a SELECT ... WHERE ... query and return a callback with err === "200".
+3. **loginer.updateData(data: object, conditions: object, tableName: string, callback(status): function):**
+Data parameter: requires an object keys of which must be the same as table column names. Conditions: WHERE key = value.
 
 ## Variables:
-1. **loginer.connection:** your mysql connection.
+1. **loginer.connection:** your mysql2 connection.
 2. **loginer.tableName:** default name of the db table.

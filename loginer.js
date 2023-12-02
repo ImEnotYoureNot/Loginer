@@ -80,6 +80,49 @@ class loginer{
             }
         )
     }
+
+    updateData(data, conditions, tableName = "", callback){
+        console.log(typeof data)
+        if(typeof data != "object" || typeof conditions != "object" || typeof tableName != "string"){
+            return console.log(Error("loginer.updateData: Check your parameter types."))
+        }
+
+        let sqlTableName = this.tableName
+        if(tableName != ""){
+            sqlTableName = tableName
+        }
+
+        let i = 0
+        const dataArr = []
+        let fields = ""
+        while(Object.keys(data).length > i){
+            fields = fields + "," + Object.keys(data) + " = ?"
+            dataArr.push(data[Object.keys(data)[i]])
+            i++
+        }
+        fields = fields.substring(1)
+
+        i = 0
+        let conditionsData = ""
+        while(Object.keys(conditions).length > i){
+            conditionsData = conditionsData + "," + Object.keys(conditions)[i] + " = ?"
+            dataArr.push(conditions[Object.keys(conditions)[i]])
+            i++
+        }
+        conditionsData = conditionsData.substring(1)
+
+        let sql = "UPDATE " + sqlTableName + " SET " + fields + " WHERE " + conditionsData
+
+        this.connection.execute(
+            sql,
+            dataArr,
+            function(err, rows, fields){
+                if(err) return callback(err)
+
+                return callback("200")
+            }
+        )
+    }
 }
 
 
