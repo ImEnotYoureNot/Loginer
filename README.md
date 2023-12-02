@@ -3,7 +3,7 @@ EN: This simple npm package will make developing sign in, sing up and similar fo
 **Github:** https://github.com/ImEnotYoureNot/Loginer
 
 ## Instalation:
-The package is availible at npm: 
+The package is available at npm: 
 ```console
 npm i loginer.js
 ```
